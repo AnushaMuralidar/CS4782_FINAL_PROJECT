@@ -1,7 +1,7 @@
 # Dataset description
 ## Overview
 
-This project uses a preprocessed Angle of Arrival (AoA) and Time of Flight (ToF) heatmap features derived from wireless Channel State Information (CSI) measurements fro indoor locaization. Each data sample is represented as a multi channel heatmap corresponding to multiple access points (APs) and is used as input to deep learnign models for predictogn spatial location. 
+This project uses a preprocessed Angle of Arrival (AoA) and Time of Flight (ToF) heatmap features derived from wireless Channel State Information (CSI) measurements for indoor locaization. Each data sample is represented as a multi channel heatmap corresponding to multiple access points (APs) and is used as input to deep learnign models for predictogn spatial location. 
 
 # Data preparation pipeline
 
