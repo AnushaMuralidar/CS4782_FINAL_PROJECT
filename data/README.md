@@ -3,7 +3,7 @@
 
 This project uses a preprocessed Angle of Arrival (AoA) and Time of Flight (ToF) heatmap features derived from wireless Channel State Information (CSI) measurements for indoor locaization. Each data sample is represented as a multi channel heatmap corresponding to multiple access points (APs) and is used as input to deep learning models for predicting spatial location. 
 
-# Data preparation pipeline
+## Data preparation pipeline
 
 The dataset was originally provided in `.mat` format and we did the following preprocessing steps: 
 
@@ -16,7 +16,7 @@ Each chunk contains approximately 1000 samples enabling modular loading during t
 
 # Dataset organization 
 
-## Single - scenario dataset
+### Single - scenario dataset
 
 - Each scenario corresponds to a distinct environment/setup
 - Data is divided into 10-11 chunks per scenario
@@ -28,3 +28,38 @@ scenario_1/
  ├── chunk_1.npz
  └── ...
 ```
+
+### Multi scenario dataset
+
+- Combines data from 3 different scenarios
+- each scenario contributes ~3-4 chunks
+- Final dataset contains ~ 11 chunks total
+
+```bash
+multi_scenario/
+ ├── chunk_0.npz
+ ├── chunk_1.npz
+ └── ...
+```
+
+This setup enables evaluation of model generalization across environments.
+
+## Data format
+
+Each `.npz` file contains: 
+
+- `features_with_offset` -> Input AoA-ToF heatmaps
+- `features_without_offset` -> Consistency targets
+- `labels_gaussian_2d` -> 2D Gaussian location maps
+- `lables` -> Ground - truth (x,y) coordinates
+
+### Example shapes
+
+- Input: [4, 161, 101] ( 4 AP heatmaps per sample)
+- Location map : [1, 161, 101]
+- Coordinates : [2]
+
+## Storage and access
+
+Due to size constraints the dataset is not stored in the Github repository. Data can be made available upon request. 
+
