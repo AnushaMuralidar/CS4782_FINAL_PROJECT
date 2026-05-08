@@ -15,8 +15,8 @@ from losses import baseline_loss, unet_loss
 from evaluate import compute_error
 
 from models.baseline import DLocBaseline
-from models.baseline import DLocUNet
-from models.baseline import DLocUNetTransformer
+from models.unet import DLocUNet
+from models.unet_transformer import DLocUNetTransformer
 
 def get_model(model_name):
     if model_name == "baseline":
