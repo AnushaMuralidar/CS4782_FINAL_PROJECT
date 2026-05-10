@@ -8,6 +8,7 @@ We evaluate three models:
 - **Baseline model** (ResNet-style encoder–decoder)
 - **UNet model**
 - **UNet + Transformer model**
+- **UNet + Cross-AP Attention + Transformer**
 
 ## Project Structure
 
@@ -22,6 +23,7 @@ CS4782_FINAL_PROJECT/
  │         ├── baseline.py
  │         ├── unet.py
  │         └── unet_transformer.py
+ |         └── unet_crossap_transformer.py
  ├── data/
  │    └── README.md
  ├── poster/
@@ -57,6 +59,7 @@ cd code
 python train.py --model unet --data_path ../data/scenario_1
 python train.py --model baseline --data_path ../data/scenario_1
 python train.py --model unet_transformer --data_path ../data/scenario_1
+python train.py --model crossap_transformer --data_path ../data/scenario_1
 
 ```
 
@@ -70,7 +73,7 @@ drive.mount('/content/drive')
 
 !pip install -r requirements.txt
 
-!python code/train.py --model unet --data_path data/scenario_1 --epochs 5 --batch_size 32 --save_dir results/unet_s1
+!python code/train.py --model unet --data_path data/scenario_1 --epochs 10 --batch_size 32 --save_dir results/unet_s1
 
 ```
 ### Try other models

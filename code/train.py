@@ -17,6 +17,7 @@ from evaluate import compute_error
 from models.baseline import DLocBaseline
 from models.unet import DLocUNet
 from models.unet_transformer import DLocUNetTransformer
+from models.unet_crossap_transformer import DLoc_APAttn_PE
 
 def get_model(model_name):
     if model_name == "baseline":
@@ -25,6 +26,8 @@ def get_model(model_name):
         return DLocUNet()
     elif model_name == "unet_transformer":
         return DLocUNetTransformer()
+    elif model_name == "crossap_transformer":
+        return DLoc_APAttn_PE()
     else:
         raise ValueError(f"Unknown model: {model_name}")
     
@@ -33,7 +36,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--model", type=str, default="unet",
-                        choices=["baseline", "unet", "unet_transformer"])
+                        choices=["baseline", "unet", "unet_transformer", "crossap_transformer"])
     parser.add_argument("--data_path", type=str, default="../data")
     parser.add_argument("--save_dir", type=str, default="../results")
     parser.add_argument("--epochs", type=int, default=10)
