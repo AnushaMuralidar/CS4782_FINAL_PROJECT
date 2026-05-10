@@ -194,7 +194,7 @@ Checkpoints and metrics are saved automatically to `--save_dir` after each epoch
 | Cross-AP + Transformer *(proposed)* | **28 cm** / — | **14 cm** / — |
 | DLoc paper (Fig. 10b) | 64 cm / 160 cm | — |
 
-![CDF comparison](results/figures/cdf_smooth_empirical.png)
+![CDF comparison](results/figures/cdf_plot.png)
 
 **Key insights:**
 - **UNet skip connections** provide the largest single improvement : 46% median reduction over baseline on S1, most notable at P90 (hard NLOS cases)
