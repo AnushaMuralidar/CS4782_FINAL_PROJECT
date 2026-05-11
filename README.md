@@ -191,7 +191,7 @@ Checkpoints and metrics are saved automatically to `--save_dir` after each epoch
 | Baseline (DLoc) | 41 cm / 143 cm | 30 cm / 94 cm |
 | UNet | **22 cm / 106 cm** | **14 cm / 51 cm** |
 | SE-UNet + Transformer | 30 cm / 110 cm | 14 cm / 51 cm |
-| Cross-AP + Transformer *(proposed)* | **28 cm** / — | **14 cm** / — |
+| Cross-AP + Transformer  | **28 cm** / **92 cm** | **14 cm** / **44 cm** |
 | DLoc paper (Fig. 10b) | 64 cm / 160 cm | — |
 
 ![CDF comparison](results/figures/cdf_plot.png)

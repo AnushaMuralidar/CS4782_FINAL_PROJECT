@@ -61,5 +61,5 @@ Each `.npz` file contains:
 
 ## Storage and access
 
-Due to size constraints the dataset is not stored in the Github repository. Data can be made available upon request. 
+Due to size constraints the dataset is not stored in the Github repository. Data can be accessed from here: [https://drive.google.com/drive/folders/1Yu8NlegvyCDvzDedaokEcslB0ep9DOg0?usp=sharing]. 
 
