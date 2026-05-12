@@ -25,38 +25,48 @@ We extend Figure 11b's binary ablation to a **consistency weight sweep** (λc �
 
 ## 3. GitHub Contents
 
-```
+```text
 ├── code/
 │   ├── models/
 │   │   ├── baseline.py                  # ResNet encoder-decoder (paper reimplementation)
 │   │   ├── unet.py                      # UNet with skip connections
 │   │   ├── unet_transformer.py          # SE-UNet with Transformer bottleneck
 │   │   └── unet_crossap_transformer.py  # Cross-AP Attention + Transformer
-│   ├── dataset.py                       # NPZ loader, train/test split
-│   ├── losses.py                        # Weighted MSE + L1 sparsity + consistency loss
-│   ├── evaluate.py                      # Error metric, CDF plotting
-│   └── train.py                         # Training loop, scheduler, checkpoint saving
+│   │
 │   ├── preprocessing/
-│   │   ├── mat_to_npz.py                # Converts raw .mat files to .npz chunks
-│   │   └── resize_grid.py               # Resizes scenarios to common grid size
+│   │   ├── mat_to_npz.py                # Converts raw .mat files to compressed .npz chunks
+│   │   └── resize_grid.py               # Resizes scenarios to common spatial grid
+│   │
+│   ├── plots/
+│   │   ├── plot_cdf.py                  # Generates localization error CDF plots
+│   │   └── plot_lambda_sweep.py         # Generates consistency-loss ablation plots
+│   │
+│   ├── dataset.py                       # NPZ loader and train/test split
+│   ├── losses.py                        # Localization + consistency losses
+│   ├── evaluate.py                      # Evaluation metrics and inference
+│   └── train.py                         # Training loop and checkpoint saving
 │
 ├── results/
 │   ├── baseline_s1/
-│   │   ├── baseline_s1_final_errors.npy
-│   │   └── baseline_s1_training_metrics.csv
 │   ├── baseline_s2/
 │   ├── unet_s1/
 │   ├── unet_s2/
 │   ├── transformer_s1/
 │   ├── transformer_s2/
 │   ├── crossap_s1/
-│   └── crossap_s2/
+│   ├── crossap_s2/
+│   ├── lambda_sweep/                    # Consistency-loss ablation experiment outputs
+│   └── figures/                         # Generated CDFs, ablation plots, and visualizations
+│
+├── data/
+│   └── README.md                        # Dataset structure and preprocessing details
 │
 ├── poster/
 ├── report/
 ├── requirements.txt
 └── README.md
 ```
+
 Each results subfolder contains:
 - `<model>_<scenario>_final_errors.npy`
 - `<model>_<scenario>_training_metrics.csv`
@@ -76,20 +86,13 @@ Each results subfolder contains:
 | `unet_transformer.py` | SE channel attention at every ResDoubleConv block + TransformerBottleneck (8 heads) |
 | `unet_crossap_transformer.py` | CrossAPAttention after encoder stages 1–3 (AP channel groups as tokens, learnable gate) + TransformerBottleneck with 2D sinusoidal positional encoding |
 
-**Dataset:** [WILD dataset](https://wcsng.ucsd.edu/wild/), 1500 sq.ft complex indoor room pre-processed features (`features_w_offset`, `features_wo_offset`, `labels_gaussian_2d`).  
+**Dataset:** WILD dataset, 1500 sq.ft complex indoor room pre-processed features (`features_w_offset`, `features_wo_offset`, `labels_gaussian_2d`).  
 Raw .mat files (11–29 GB) converted to float16 `.npz` chunks of 1000 samples (~5 GB/scenario) for Colab compatibility.
 
 **Two training regimes:**
 - `s1` — single scenario, ~11k samples
 - `s2` — mixed 3 scenarios, ~9k samples (3k each)
 
-**Loss:**
-The baseline model uses the paper-style weighted L1 location loss + L1 consistency loss.  
-The UNet-based models use a modified loss:
-
-```text
-L = (5L_GT + 0.1)·MSE(ŷ, L_GT) + λs‖ŷ‖₁ + λc·MSE(ĉ, B)
-```
 **Training:** Adam (lr=1e-4, wd=1e-5), StepLR (γ=0.5, step 5), 10 epochs, batch 16.  
 **Metric:** Median and P90 localization error (cm) on 80/20 train/test split.
 
@@ -127,7 +130,7 @@ To standardize spatial resolution across scenarios, heatmaps are resized to a co
 ```bash
 python code/preprocessing/resize_grid.py --input data/<scenario_name> --output data/<scenario_name>_resized
 ```
-Preprocessed `.npz` data can be downloaded here (restricted to Cornell access only):[https://drive.google.com/drive/folders/1Yu8NlegvyCDvzDedaokEcslB0ep9DOg0?usp=sharing].
+Preprocessed `.npz` data can be downloaded [here](https://drive.google.com/drive/folders/1Yu8NlegvyCDvzDedaokEcslB0ep9DOg0?usp=sharing) (restricted to Cornell access only)
 
 ### Dataset Construction
 

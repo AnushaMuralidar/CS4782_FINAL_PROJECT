@@ -13,53 +13,72 @@ The dataset was originally provided in `.mat` format and we did the following pr
 - Reduced storage size significantly(~ 15-16 GB to ~2.5GB per scenario)
 
 Each chunk contains approximately 1000 samples enabling modular loading during training. 
+Preprocessing scripts are available in:
 
-# Dataset organization 
+```text
+code/preprocessing/
+ ├── mat_to_npz.py
+ └── resize_grid.py
+```
 
-### Single - scenario dataset
+## Dataset Organization
 
-- Each scenario corresponds to a distinct environment/setup
-- Data is divided into 10-11 chunks per scenario
-- Each scenario contains: input features (AoA-ToF heatmaps) and labels ( ground truth location information)
+### Single-scenario dataset
 
-```bash
+Each scenario corresponds to a distinct indoor environment/setup.
+
+```text
 scenario_1/
- ├── chunk_0.npz
- ├── chunk_1.npz
+ ├── chunk_00.npz
+ ├── chunk_01.npz
  └── ...
 ```
 
-### Multi scenario dataset
+- ~10–11 chunks per scenario
+- ~1000 samples per chunk
+- ~11k total samples
 
-- Combines data from 3 different scenarios
-- each scenario contributes ~3-4 chunks
-- Final dataset contains ~ 11 chunks total
+---
 
-```bash
+### Multi-scenario dataset
+
+The multi-scenario dataset combines subsets from three environments:
+
+- `dataset_jacobs_July28`
+- `dataset_jacobs_July28_2`
+- `dataset_aug16_4_ref`
+
+```text
 multi_scenario/
- ├── chunk_0.npz
- ├── chunk_1.npz
+ ├── chunk_00.npz
+ ├── chunk_01.npz
  └── ...
 ```
 
-This setup enables evaluation of model generalization across environments.
+This setup enables evaluation of generalization under diverse NLOS and multipath conditions.
 
-## Data format
 
-Each `.npz` file contains: 
+## Data Format
 
-- `features_with_offset` -> Input AoA-ToF heatmaps
-- `features_without_offset` -> Consistency targets
-- `labels_gaussian_2d` -> 2D Gaussian location maps
-- `lables` -> Ground - truth (x,y) coordinates
+Each `.npz` chunk contains:
 
-### Example shapes
+| Key | Description |
+|---|---|
+| `A` | Input AoA-ToF heatmaps |
+| `B` | Consistency targets |
+| `L` | 2D Gaussian location heatmaps |
+| `G` | Ground-truth `(x,y)` coordinates |
 
-- Input: [4, 161, 101] ( 4 AP heatmaps per sample)
-- Location map : [1, 161, 101]
-- Coordinates : [2]
+### Example Shapes
+
+| Tensor | Shape |
+|---|---|
+| `A` | `[4, 161, 101]` |
+| `B` | `[4, 161, 101]` |
+| `L` | `[1, 161, 101]` |
+| `G` | `[2]` |
 
 ## Storage and access
 
-Due to size constraints the dataset is not stored in the Github repository. Data can be accessed from here: [https://drive.google.com/drive/folders/1Yu8NlegvyCDvzDedaokEcslB0ep9DOg0?usp=sharing]. 
+Due to size constraints the dataset is not included in the Github repository. Preprocessed `.npz` data can be accessed [here](https://drive.google.com/drive/folders/1Yu8NlegvyCDvzDedaokEcslB0ep9DOg0?usp=sharing). If access is unavailable, follow the preprocessing steps in the main README to regenerate the dataset locally.
 
